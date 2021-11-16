@@ -1,0 +1,29 @@
+{
+  "name": "e-commerce",
+  "version": "1.0.0",
+  "description": "E-Commerce",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "watch": "nodemon server.js",
+    "seed": "node seeds/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@work.github.com:coding-boot-camp/module-13-challenge-orm.git"
+  },
+  "keywords": [],
+  "author": "Julius Markauskas",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^5.22.4"
+  }
+}
