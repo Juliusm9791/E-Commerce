@@ -1,6 +1,6 @@
 {
   "name": "e-commerce",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "E-Commerce",
   "main": "server.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "url": "git@work.github.com:coding-boot-camp/module-13-challenge-orm.git"
   },
   "keywords": [],
-  "author": "Julius Markauskas",
+  "author": "Updated by Julius Markauskas",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^2.0.3"
