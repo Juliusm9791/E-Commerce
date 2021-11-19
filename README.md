@@ -44,7 +44,7 @@
   ``source db/schema.sql``
   
 
-  To use this app - run the following command:
+  To use this app - run the following commands:
 
   ``node seeds/index.sql``
 
