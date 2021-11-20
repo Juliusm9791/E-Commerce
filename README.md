@@ -12,7 +12,7 @@
 
   ## Description
 
-  Back end e-commerce site
+  Back end e-commerce site 
   
   
   ![E-Commerce](./images/screen.jpg)
@@ -27,6 +27,7 @@
   * npm express
   * npm mysql2
   * npm sequelize
+  * Insomnia 
 
 
   ## Installation instructions
@@ -46,9 +47,9 @@
 
   To use this app - run the following commands:
 
-  ``node seeds/index.js``
+  ``npm run seed``
 
- ```node server```
+  ``node server``
 
   ## License
 
