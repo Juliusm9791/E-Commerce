@@ -46,7 +46,7 @@
 
   To use this app - run the following commands:
 
-  ``node seeds/index.sql``
+  ``node seeds/index.js``
 
  ```node server```
 

@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
 
 
 // create new product
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -48,69 +48,62 @@ router.post('/', (req, res) => {
       tagIds: [1, 2, 3, 4]
     }
   */
-  Product.create(req.body)
-    .then((product) => {
-      // if there's product tags, we need to create pairings to bulk create in the ProductTag model
-      if (req.body.tagIds.length) {
-        const productTagIdArr = req.body.tagIds.map((tagId) => {
-          return {
-            productId: product.id,
-            tagId,
-          };
-        });
-        return ProductTag.bulkCreate(productTagIdArr);
-      }
-      // if no product tags, just respond
-      res.status(200).json(product);
-    })
-    .then((productTagIds) => res.status(200).json(productTagIds))
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+  const productData = await Product.create(req.body)
+  // if there's product tags, we need to create pairings to bulk create in the ProductTag model
+  try {
+    if (req.body.tagIds.length) {
+      const productTagIdArr = req.body.tagIds.map((tagId) => {
+        return {
+          productId: productData.id,
+          tagId,
+        };
+      });
+      await ProductTag.bulkCreate(productTagIdArr);
+    }
+    // if no product tags, just respond
+    res.status(200).json(productData);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  };
 });
 
 
 // update product
-router.put('/:id', (req, res) => {
-  // update product data
-  Product.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((product) => {
-      // find all associated tags from ProductTag
-      return ProductTag.findAll({ where: { productId: req.params.id } });
+router.put('/:id', async (req, res) => {
+  // update product data // const product=
+  try {
+    const productData = await Product.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
     })
-    .then((productTags) => {
-      // get list of current tag_ids
-      const productTagIds = productTags.map(({ tagId }) => tagId);
-      // create filtered list of new tag_ids
-      const newProductTags = req.body.tagIds
-        .filter((tagId) => !productTagIds.includes(tagId))
-        .map((tagId) => {
-          return {
-            productId: req.params.id,
-            tagId,
-          };
-        });
-      // figure out which ones to remove
-      const productTagsToRemove = productTags
-        .filter(({ tagId }) => !req.body.tagIds.includes(tagId))
-        .map(({ id }) => id);
+    // find all associated tags from ProductTag
+    const productTags = await ProductTag.findAll({ where: { productId: req.params.id } });
+    // get list of current tag_ids
+    const productTagIds = productTags.map(({ tagId }) => tagId);
+    // create filtered list of new tag_ids
+    const newProductTags = req.body.tagIds
+      .filter((tagId) => !productTagIds.includes(tagId))
+      .map((tagId) => {
+        return {
+          productId: req.params.id,
+          tagId,
+        };
+      });
+    // figure out which ones to remove
+    const productTagsToRemove = productTags
+      .filter(({ tagId }) => !req.body.tagIds.includes(tagId))
+      .map(({ id }) => id);
 
-      // run both actions
-      return Promise.all([
-        ProductTag.destroy({ where: { id: productTagsToRemove } }),
-        ProductTag.bulkCreate(newProductTags),
-      ]);
-    })
-    .then((updatedProductTags) => res.json(updatedProductTags))
-    .catch((err) => {
-      // console.log(err);
-      res.status(400).json(err);
-    });
+    await ProductTag.destroy({ where: { id: productTagsToRemove } });
+    const updatedProductTags = await ProductTag.bulkCreate(newProductTags);
+    res.json({ product: productData, tags: updatedProductTags });
+
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  };
 });
 
 router.delete('/:id', async (req, res) => {
