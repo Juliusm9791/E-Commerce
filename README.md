@@ -12,14 +12,14 @@
 
   ## Description
 
-  Back end e-commerce site 
+  Back end e-commerce site. Because this application is not deployed, you need to use 'Insomnia' to see functionality.
   
   
   ![E-Commerce](./images/screen.jpg)
 
   #### Demo video
 
-  [E-Commerce video demonstration](https://)
+  [E-Commerce video demonstration](https://drive.google.com/file/d/1WjjFjYTHMoUJSZNxGsJgzC2cW7gf0ErP/view?usp=sharing)
 
   #### For this project the following technologies were used:
   * Nodejs
@@ -49,7 +49,7 @@
 
   ``npm run seed``
 
-  ``node server``
+  ``npm start``
 
   ## License
 
